@@ -24,7 +24,14 @@ def improved_euler_method(f, g, j, x0: float, y0: float, z0: float, h):
 
 
 def runge_kutta_method(f, g, j, x0: float, y0: float, z0: float, h):
-    return
+    F1 = lambda x: x(x0, y0, z0)
+    F2 = lambda x: x(x0 + (h / 2) * F1(f), y0 + (h / 2) * F1(g), z0 + (h / 2) * F1(j))
+    F3 = lambda x: x(x0 + (h / 2) * F2(f), y0 + (h / 2) * F2(g), z0 + (h / 2) * F2(j))
+    F4 = lambda x: x(x0 + h * F3(f), y0 + h * F3(g), z0 + h * F3(j))
+    x1 = x0 + (h / 6) * (F1(f) + 2 * F2(f) + 2 * F3(f) + F4(f))
+    y1 = y0 + (h / 6) * (F1(g) + 2 * F2(g) + 2 * F3(g) + F4(g))
+    z1 = z0 + (h / 6) * (F1(j) + F2(j) + F3(j) + F4(j))
+    return x1, y1, z1
 
 
 def get_results(s0, i0, t_max, h, f=improved_euler_method):
