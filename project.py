@@ -3,14 +3,6 @@
 # I = infectados   => i = I/N
 # R = removidos    => r = R/N
 
-ALPHA = 1
-# s' = -s(t)i(t)
-s_der = lambda x, y, z: -x * y
-# i' = s(t)i(t) - ALPHA*i(t)
-i_der = lambda x, y, z: x * y - ALPHA * y
-# r' = ALPHA*i(t)
-r_der = lambda x, y, z: ALPHA * y
-
 
 def improved_euler_method(f, g, j, x0: float, y0: float, z0: float, h):
     u1 = x0 + h * f(x0, y0, z0)
@@ -34,7 +26,15 @@ def runge_kutta_method(f, g, j, x0: float, y0: float, z0: float, h):
     return x1, y1, z1
 
 
-def get_results(s0, i0, t_max, h, f=improved_euler_method):
+def get_results(s0, i0, t_max, h, f=improved_euler_method, alpha=0.26):
+    ALPHA = alpha
+    # s' = -s(t)i(t)
+    s_der = lambda x, y, z: -x * y
+    # i' = s(t)i(t) - ALPHA*i(t)
+    i_der = lambda x, y, z: x * y - ALPHA * y
+    # r' = ALPHA*i(t)
+    r_der = lambda x, y, z: ALPHA * y
+
     n = round(t_max / h)
     r0 = 0
     if s0 <= 0 or i0 <= 0:
